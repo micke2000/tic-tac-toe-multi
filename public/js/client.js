@@ -55,8 +55,14 @@ socket.on("game-started",userId=>{
         box.addEventListener("mouseout",function(){
             if(!blocked){
             if(!box.classList.contains("clicked")){
+            try{
             box.querySelector("i").remove()
             }
+            catch (e){
+                if(e instanceof TypeError){}
+                else throw Error.TypeError
+            }    
+        }
         }
         })
         box.addEventListener("click",function(){
