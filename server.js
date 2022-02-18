@@ -183,7 +183,6 @@ io.on('connection', socket => {
             setTimeout(() => {
                 io.emit('game-ended')
             }, 2000);
-            reset();
         }
     })
     console.log(connectedPlayers)
