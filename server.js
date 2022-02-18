@@ -43,16 +43,23 @@ function checkForWin(user) {
     let win = false
     const userBoxes = user.boxes.sort()
     console.log(userBoxes)
-    possibleWinnings.forEach(function (winOption) {
-        if (userBoxes.join(',').includes(winOption.sort().join(","))) {
-            win = true;
+    for(let i = 0;i<possibleWinnings.length;i++) {
+        let allExists = true
+        possibleWinnings[i].forEach(function(place){
+            if(userBoxes.indexOf(place)==-1){
+                allExists = false
+            }
+        })
+        if(allExists){
+            win = true
+            break 
         }
-    })
+    }
     return win
 }
 
 function allSet() {
-    console.log(board)
+    // console.log(board)
     let allSet = true
     const values = Array.from(board.values());
     for (let i = 0; i < values.length; i++) {
@@ -139,7 +146,7 @@ io.on('connection', socket => {
             socket.broadcast.emit('your-turn');
             socket.emit('blocked')
             users[socket.id].blocked = true
-            users[socket.id].boxes.push(boxId)
+            users[socket.id].boxes.push(Number(boxId))
             if (checkForWin(users[socket.id])) {
                 socket.emit("you-won")
                 socket.broadcast.emit('other-player-won')
